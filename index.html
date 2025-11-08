@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Skychat*</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root { --accent: #22c55e; }
+    .accent { color: var(--accent); }
+    .glow-bg { position: fixed; inset: 0; pointer-events: none; opacity: .2;
+      background: radial-gradient(600px 200px at 60% -10%, var(--accent), transparent 70%);
+      filter: blur(20px); }
+    /* Subtle hover glow for titles */
+    .hover-glow { transition: text-shadow 140ms linear, color 140ms linear; }
+    .hover-glow:hover { text-shadow: 0 0 6px rgba(16,185,129,.55); color: #eafff3; }
+    /* Inline icon sizing */
+    .icon-inline { width: 1.25rem; height: 1.25rem; } /* 20px */
+    /* Home/Detail page visibility */
+    .page { display: none; }
+    .page.active { display: block; }
+    /* Tilt (no translate) for main title only */
+    .tilt { transition: transform 100ms linear; transform: perspective(800px); will-change: transform; display:inline-block; }
+  </style>
+</head>
+<body class="min-h-screen bg-black text-neutral-200 flex items-start justify-center">
+  <div class="w-full max-w-xl px-6 pb-20 pt-10" id="app">
+    <div class="h-6"></div>
+
+    <!-- Shared header -->
+    <header class="mb-6 flex items-center justify-between">
+      <div></div>
+      <button class="accent hover:opacity-90 transition-opacity text-sm" aria-label="Done" type="button">Done</button>
+    </header>
+
+    <!-- HOME PAGE -->
+    <main id="home" class="page active">
+      <h1 class="mt-0 font-mono text-4xl tracking-tight text-emerald-500 hover:text-emerald-300 tilt" id="appName">skychat*</h1>
+      <p class="mt-1 font-mono text-base text-emerald-200" id="tagline">secure mesh chat</p>
+
+      <!-- FEATURES -->
+      <section class="mt-8">
+        <h2 class="font-mono text-xl mb-3 text-emerald-300">FEATURES</h2>
+        <ul class="space-y-4">
+          <li>
+            <a href="#/offline" class="group flex items-center gap-2 text-left">
+              <i data-lucide="wifi-off" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Offline Communication</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Works without internet using Bluetooth mesh networking—devices relay through nearby peers for resilient, local‑first delivery.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/e2ee" class="group flex items-center gap-2 text-left">
+              <i data-lucide="shield-check" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">End‑to‑End Encryption</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Modern cryptography (Curve25519 + AES‑GCM) ensures only intended recipients can read your messages—operators and relays cannot.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/range" class="group flex items-center gap-2 text-left">
+              <i data-lucide="signal-high" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Extended Range</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Peer‑to‑peer hops extend coverage across venues and trails so your team stays connected even without towers or Wi‑Fi.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/favorites" class="group flex items-center gap-2 text-left">
+              <i data-lucide="star" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Favorites System</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Trusted contacts buffer messages while you’re offline and deliver automatically once you reconnect to the mesh.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/mentions" class="group flex items-center gap-2 text-left">
+              <i data-lucide="at-sign" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Mentions</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              @nickname pings the right person in a busy room, cutting through noise without blasting notifications to everyone.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/rooms" class="group flex items-center gap-2 text-left">
+              <i data-lucide="hash" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Rooms</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Create #channels to organize discussions by topic with scoped keys so only the right people can read.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/password-rooms" class="group flex items-center gap-2 text-left">
+              <i data-lucide="lock" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Password Rooms</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Add a shared passphrase on top of encryption for ad‑hoc privacy—great for pop‑up groups and temporary teams.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- PRIVACY -->
+      <section class="mt-8">
+        <h2 class="font-mono text-xl mb-3 text-emerald-300">PRIVACY</h2>
+        <ul class="space-y-4">
+          <li>
+            <a href="#/no-tracking" class="group flex items-center gap-2 text-left">
+              <i data-lucide="eye-off" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">No Tracking</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              No accounts, numbers, or telemetry—there’s nothing central to sell, subpoena, or leak.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/ephemeral" class="group flex items-center gap-2 text-left">
+              <i data-lucide="ghost" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Ephemeral Identity</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              Rotating IDs make long‑term correlation difficult, limiting what observers can infer about you.
+            </p>
+          </li>
+
+          <li>
+            <a href="#/safekeeping" class="group flex items-center gap-2 text-left">
+              <i data-lucide="shield" class="icon-inline text-emerald-400"></i>
+              <span class="font-mono text-[1.125rem] leading-6 text-emerald-50 hover-glow">Safekeeping</span>
+            </a>
+            <p class="text-[13px] text-neutral-400 leading-relaxed pl-6">
+              A local encrypted vault protects backups and keys so recovery never compromises your privacy.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- DETAIL PAGE -->
+    <section id="detail" class="page">
+      <nav class="mb-4 flex items-center gap-2">
+        <a href="#/" class="text-xs accent hover:underline flex items-center gap-1"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+      </nav>
+      <h1 id="detail-title" class="font-mono text-3xl mb-2 text-emerald-50"></h1>
+      <p id="detail-kicker" class="text-sm text-neutral-400 mb-4"></p>
+      <div id="detail-body" class="space-y-4 text-sm leading-relaxed"></div>
+    </section>
+  </div>
+
+  <div class="glow-bg" aria-hidden></div>
+
+  <script>
+    // Render icons
+    lucide.createIcons();
+
+    // Title tilt (no translation)
+    (function(){
+      const el = document.getElementById('appName');
+      if (!el) return;
+      const max = 6;
+      function onMove(e){
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - (r.left + r.width/2)) / (r.width/2);
+        const py = (e.clientY - (r.top + r.height/2)) / (r.height/2);
+        el.style.transform = `perspective(800px) rotateX(${(-py*max).toFixed(2)}deg) rotateY(${(px*max).toFixed(2)}deg)`;
+      }
+      function onLeave(){ el.style.transform = 'perspective(800px) rotateX(0) rotateY(0)'; }
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseleave', onLeave);
+    })();
+
+    // Simple hash router for detail pages
+    const home = document.getElementById('home');
+    const detail = document.getElementById('detail');
+
+    const PAGES = {
+      offline: {
+        title: 'Offline Communication',
+        kicker: 'Works without the internet using Bluetooth mesh networking.',
+        body: [
+          '<strong>What it is:</strong> Devices connect directly via Bluetooth and relay messages through nearby peers to span larger distances.',
+          '<strong>Why it\\'s useful:</strong> Perfect for festivals, travel, flights, and emergencies when connectivity is limited or censored.',
+          '<strong>How it protects you:</strong> No servers are involved, so metadata exposure is reduced and delivery remains local-first.'
+        ]
+      },
+      e2ee: {
+        title: 'End‑to‑End Encryption',
+        kicker: 'All messages are protected with Curve25519 + AES‑GCM.',
+        body: [
+          '<strong>What it is:</strong> Only sender and recipient hold the keys—intermediaries can\\'t decipher content.',
+          '<strong>Why it\\'s useful:</strong> Prevents eavesdropping on public networks and untrusted relays.',
+          '<strong>How it protects you:</strong> Modern cryptography (X25519 key exchange, AES‑GCM sealing) guards confidentiality and integrity.'
+        ]
+      },
+      range: {
+        title: 'Extended Range',
+        kicker: 'Messages hop through peers, reaching far beyond a single device.',
+        body: [
+          '<strong>What it is:</strong> Each phone can forward to the next, forming a resilient mesh as people move.',
+          '<strong>Why it\\'s useful:</strong> Reach teammates across venues, campuses, or trails without towers.',
+          '<strong>How it protects you:</strong> No single choke point to block or surveil—privacy by design.'
+        ]
+      },
+      favorites: {
+        title: 'Favorites System',
+        kicker: 'Store‑and‑forward for trusted contacts.',
+        body: [
+          '<strong>What it is:</strong> Favorite peers buffer messages while you\\'re offline.',
+          '<strong>Why it\\'s useful:</strong> Important messages deliver once you reconnect—no manual retries.',
+          '<strong>How it protects you:</strong> Encrypted caches expire to limit long‑term exposure.'
+        ]
+      },
+      mentions: {
+        title: 'Mentions',
+        kicker: 'Use @nickname to get someone\\'s attention.',
+        body: [
+          '<strong>What it is:</strong> Lightweight notifications for specific users in busy rooms.',
+          '<strong>Why it\\'s useful:</strong> Cuts through noise so the right person sees your message.',
+          '<strong>How it protects you:</strong> Local to the mesh—no push servers or accounts required.'
+        ]
+      },
+      rooms: {
+        title: 'Rooms',
+        kicker: 'Topic‑based spaces for organized chat.',
+        body: [
+          '<strong>What it is:</strong> Create #channels to keep conversations tidy.',
+          '<strong>Why it\\'s useful:</strong> Easier to follow threads for projects, events, or interests.',
+          '<strong>How it protects you:</strong> Room keys scope access so only invited peers can read.'
+        ]
+      },
+      'password-rooms': {
+        title: 'Password Rooms',
+        kicker: 'Extra lock for sensitive groups.',
+        body: [
+          '<strong>What it is:</strong> Add a shared passphrase on top of encryption.',
+          '<strong>Why it\\'s useful:</strong> Simple barrier for pop‑up groups without full provisioning.',
+          '<strong>How it protects you:</strong> Locks down read access and thwarts casual snooping.'
+        ]
+      },
+      'no-tracking': {
+        title: 'No Tracking',
+        kicker: 'No servers, accounts, or data collection.',
+        body: [
+          '<strong>What it is:</strong> Skychat doesn\\'t require an account or phone number.',
+          '<strong>Why it\\'s useful:</strong> There\\'s nothing to sell, subpoena, or leak.',
+          '<strong>How it protects you:</strong> Eliminates telemetry and reduces metadata about who you talk to.'
+        ]
+      },
+      ephemeral: {
+        title: 'Ephemeral Identity',
+        kicker: 'Rotating IDs help blur long‑term tracking.',
+        body: [
+          '<strong>What it is:</strong> Short‑lived identifiers change over time.',
+          '<strong>Why it\\'s useful:</strong> Harder to correlate your activity across different places and days.',
+          '<strong>How it protects you:</strong> Rotation limits how much any observer can learn.'
+        ]
+      },
+      safekeeping: {
+        title: 'Safekeeping',
+        kicker: 'We value your safety, and so does our vault.',
+        body: [
+          '<strong>What it is:</strong> A secure vault for sensitive backups and keys.',
+          '<strong>Why it\\'s useful:</strong> Recover chats and devices without exposing your secrets.',
+          '<strong>How it protects you:</strong> Everything is encrypted at rest with your key material and never leaves your control.'
+        ]
+      }
+    };
+
+    function render(route){
+      const key = (route || '').replace(/^#\\/?/, '');
+      if (!key) {
+        // Home
+        home.classList.add('active');
+        detail.classList.remove('active');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        return;
+      }
+      const page = PAGES[key];
+      if (!page) { location.hash = '#/'; return; }
+      // Detail
+      home.classList.remove('active');
+      detail.classList.add('active');
+      document.getElementById('detail-title').textContent = page.title;
+      document.getElementById('detail-kicker').textContent = page.kicker;
+      const body = document.getElementById('detail-body');
+      body.innerHTML = page.body.map(p => `<p>${p}</p>`).join('');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      lucide.createIcons();
+    }
+
+    window.addEventListener('hashchange', () => render(location.hash));
+    render(location.hash);
+
+    // Optional: URL param customizations
+    const params = new URLSearchParams(location.search);
+    if (params.get('accent')) document.documentElement.style.setProperty('--accent', params.get('accent'));
+    if (params.get('name')) document.getElementById('appName').textContent = (params.get('name') || 'Skychat').toLowerCase() + '*';
+    if (params.get('tagline')) document.getElementById('tagline').textContent = params.get('tagline');
+  </script>
+</body>
+</html>
